@@ -1,0 +1,7 @@
+{   
+    "etl_name": "My Project",
+    "etl_name_slug": "{{cookiecutter.etl_name|lower|replace(' ','-')}}",
+    "etl_package_name": "{{cookiecutter.etl_name|lower|replace(' ','_')}}",
+    "etl_description": "This ETL Extracts Transforms and Loads.",
+    "etl_author": "First Last <team-email@example.com>"
+}

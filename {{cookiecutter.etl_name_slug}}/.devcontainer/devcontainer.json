@@ -1,0 +1,59 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.205.2/containers/python-3
+{
+	"name": "Python 3",
+
+	"image": "{{cookiecutter.etl_name_slug}}-amd64",
+
+	// copies the sample.env to .env file only if it doesn't exist or newer than .env file
+	// and builds the image using the x86 platform argument
+	"initializeCommand": "cp -n sample.env .env || true && podman buildx build -t {{cookiecutter.etl_name_slug}}-amd64 --build-arg DEVCONTAINER=1 --platform linux/amd64 .",
+	
+	"workspaceMount": "",
+
+	// .env file should contain variables in <VAR NAME>=<VAR VALUE> export is not required
+
+	"runArgs": ["--platform", "linux/amd64", "--env-file", ".env", "--volume=${localWorkspaceFolder}:${containerWorkspaceFolder}"],
+	// If using podman on linux you must override the workspace mount to be SELinux compatible
+
+	// If running on linux uncomment this line and comment the previous line
+	// "runArgs": ["--platform", "linux/amd64", "--env-file", ".env", "--volume=${localWorkspaceFolder}:${containerWorkspaceFolder}:Z"],
+
+	// Set *default* container specific settings.json values on container create.
+	"settings": { 
+		"python.defaultInterpreterPath": "${containerWorkspaceFolder}/.venv/bin/python",
+		"python.linting.enabled": true,
+		"python.linting.pylintEnabled": true,
+		"python.formatting.autopep8Path": "${containerWorkspaceFolder}/.venv/bin/autopep8",
+		"python.formatting.blackPath": "${containerWorkspaceFolder}/.venv/bin/black",
+		"python.formatting.yapfPath": "${containerWorkspaceFolder}/.venv/bin/yapf",
+		"python.linting.banditPath": "${containerWorkspaceFolder}/.venv/bin/bandit",
+		"python.linting.flake8Path": "${containerWorkspaceFolder}/.venv/bin/flake8",
+		"python.linting.mypyPath": "${containerWorkspaceFolder}/.venv/bin/mypy",
+		"python.linting.pycodestylePath": "${containerWorkspaceFolder}/.venv/bin/pycodestyle",
+		"python.linting.pydocstylePath": "${containerWorkspaceFolder}/.venv/bin/pydocstyle",
+		"python.linting.pylintPath": "${containerWorkspaceFolder}/.venv/bin/pylint"
+	},
+
+	// This section pulls all poetry caching outside the container so it can be functionally cached.
+	"containerEnv": {
+		"POETRY_CONFIG_DIR": "${containerWorkspaceFolder}/.config/pypoetry",
+		"POETRY_CACHE_DIR": "${containerWorkspaceFolder}/.cache/pypoetry",
+	},
+
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"ms-python.python",
+		"ms-python.vscode-pylance",
+		"kevinrose.vsc-python-indent",
+		"njqdev.vscode-python-typehint",
+		"njpwerner.autodocstring"
+	],
+
+	// Use 'postStartCommand' to run commands after the container is started.
+	// We use virtual envs in projects so we can hardcode the dev requirement paths.
+	"postStartCommand": "poetry config virtualenvs.in-project true && poetry install",
+
+	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "0"
+}

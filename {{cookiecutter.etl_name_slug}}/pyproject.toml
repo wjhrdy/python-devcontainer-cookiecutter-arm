@@ -1,0 +1,34 @@
+[tool.poetry]
+name = "{{cookiecutter.etl_package_name}}"
+version = "0.1.0"
+description = "{{cookiecutter.etl_description}}"
+authors = ["{{cookiecutter.etl_author}}"]
+packages = [
+    { include = "{{cookiecutter.etl_package_name}}", from = "src" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+click = "^8.0.1"
+
+[tool.poetry.dev-dependencies]
+autopep8 = "^1.6.0"
+flake8 = "^4.0.1"
+black = {version = "^21.6b0", allow-prereleases = true}
+pytest = "^6.2.5"
+coverage = "^6.0.1"
+toml = "^0.10.2"
+pytest-cov = "^3.0.0"
+yapf = "^0.31.0"
+bandit = "^1.7.1"
+mypy = "^0.910"
+pycodestyle = "^2.8.0"
+pydocstyle = "^6.1.1"
+pylint = "^2.11.1"
+Sphinx = "^5.0.1"
+sphinx-rtd-theme = "^1.0.0"
+sphinxcontrib-napoleon = "^0.7"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
